@@ -39,7 +39,7 @@ export function CarCard({ car }: CarCardProps) {
 
         <div className="mb-2 inline">
           <span className="mr-2 text-sm"> Top Speed: </span>
-          <Badge>{car.top_speed}mph</Badge>
+          <Badge>{car.top_speed}km/h</Badge>
         </div>
       </div>
     </Card>

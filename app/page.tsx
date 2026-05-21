@@ -6,6 +6,7 @@ import { ListFilter } from "lucide-react";
 import { Car } from "@/types/carType";
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
 import { Button } from "@/components/UI";
+import { buildFilterOptions } from "@/lib/filters";
 
 export default function Home() {
   const [carList, setCarList] = useState<Car[]>([]);
@@ -18,8 +19,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log("searchInput", searchInput);
-  }, [searchInput]);
+    console.log(buildFilterOptions(carList));
+  }, [carList]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("clicked");
