@@ -25,6 +25,7 @@ export function Pagination({
       {pageNumbers.map((page) => (
         <Button
           className="mr-2"
+          disabled={currentPage === page}
           key={`${page}`}
           variant="regular"
           highlight={page === currentPage}
