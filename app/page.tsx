@@ -4,14 +4,14 @@ import { useState } from "react";
 import { ListFilter, Loader } from "lucide-react";
 
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
-import { Button, Heading } from "@/components/UI";
+import { Button, Heading, Pagination } from "@/components/UI";
 import { useCarFilters } from "@/hooks/useCarFilters";
 import { useCarData } from "@/hooks/useCarData";
-import { FILTER_UI_CONFIG } from "@/lib/constants";
+import { FILTER_UI_CONFIG, PAGE_SIZE } from "@/lib/constants";
 
 export default function Home() {
   const [showFilters, setShowFilters] = useState<boolean>(false);
-
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const { carList, loading } = useCarData();
 
   const {
@@ -51,14 +51,26 @@ export default function Home() {
             <Loader className="animate-spin" />
           </div>
         ) : displayCars.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-            {displayCars.map((car, index) => (
-              <CarCard
-                car={car}
-                key={`${car.make}-${car.model}-${car.year}-${index}`}
+          <>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+              {displayCars
+                .slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
+                .map((car, index) => (
+                  <CarCard
+                    car={car}
+                    key={`${car.make}-${car.model}-${car.year}-${index}`}
+                  />
+                ))}
+            </div>
+            <div className="flex w-full justify-center py-4">
+              <Pagination
+                itemsPerPages={PAGE_SIZE}
+                itemsTotal={displayCars.length}
+                currentPage={currentPage}
+                setCurrentPage={(page) => setCurrentPage(page)}
               />
-            ))}
-          </div>
+            </div>
+          </>
         ) : (
           <div className="flex w-full justify-center text-center">
             <Heading variant="h6">

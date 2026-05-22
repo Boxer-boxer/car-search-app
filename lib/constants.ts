@@ -6,3 +6,5 @@ export const FILTER_UI_CONFIG = {
   top_speed: "range",
   horsepower: "range",
 } as const;
+
+export const PAGE_SIZE = 12;
