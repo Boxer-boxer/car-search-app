@@ -29,12 +29,7 @@ export default function Home() {
 
   useEffect(() => {
     setDisplayCars(filterCars(carList, filterValue, searchInput));
-    console.log("filterValue", filterValue);
   }, [carList, filterValue, searchInput]);
-
-  useEffect(() => {
-    console.log("filterOptions", filterOptions);
-  }, [filterOptions]);
 
   return (
     <div className="bg-gray-50 pt-4">

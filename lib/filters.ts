@@ -1,4 +1,11 @@
-import { Car, FilterModel, FilterModelInput } from "@/types/carTypes";
+import {
+  Car,
+  FilterModel,
+  FilterModelInput,
+  FilterOptions,
+  CarPropertyValues,
+  FilterValue,
+} from "@/types/carTypes";
 
 /* Builds an object based on an array of items with multiple properties.
 / Returns an object with all available filter categories and necessary
@@ -29,6 +36,31 @@ export function buildFilterOptions(items: Partial<Car[]>): FilterModel {
   );
 }
 
+function filterByRange(filterValue: FilterValue, value: CarPropertyValues) {
+  const [min, max] = filterValue;
+
+  if (value < min || value > max) {
+    return false;
+  }
+}
+
+function filterByStringArray(filterValue: string[], value: CarPropertyValues) {
+  if (filterValue.includes(String(value))) {
+    return true;
+  }
+}
+
+function filterByString(filterValue: string, value: string) {
+  return !value.toLowerCase().includes(filterValue.toLowerCase());
+}
+
+function filterBySearchInput(searchInput: string, car: Car) {
+  if (searchInput.trim()) {
+    const carSearchText = Object.values(car).join(" ").toLowerCase();
+    return !carSearchText.includes(searchInput.toLowerCase());
+  }
+}
+
 /* filterCars takes an object with filtering values and returns an array of objects
  * that match those values.
  * For example, the object:
@@ -41,18 +73,14 @@ export function buildFilterOptions(items: Partial<Car[]>): FilterModel {
  * Ranges are represented as tuples
  * [min, max]
  */
-
 export function filterCars(
   cars: Car[],
-  filters: Record<string, (number | string)[] | string>,
+  filters: FilterOptions,
   searchInput: string,
 ) {
   return cars.filter((car) => {
-    if (searchInput.trim()) {
-      const carSearchText = Object.values(car).join(" ").toLowerCase();
-      if (!carSearchText.includes(searchInput.toLowerCase())) {
-        return false;
-      }
+    if (filterBySearchInput(searchInput, car)) {
+      return false;
     }
 
     for (const [key, filterValue] of Object.entries(filters)) {
@@ -60,24 +88,20 @@ export function filterCars(
         continue;
       }
 
-      const carValue = car[key as keyof Car];
-
+      const carValue: CarPropertyValues = car[key as keyof Car];
       // Array Filters
       if (Array.isArray(filterValue)) {
         // Check the function is working with Range filters ([min, max])
         // not string filters (i.e. [colour1, colour2, etc.])
         if (
-          !filterValue.some((value: string | number) => isNaN(Number(value)))
+          !filterValue.some((value: CarPropertyValues) => isNaN(Number(value)))
         ) {
-          const [min, max] = filterValue;
-
-          if (carValue < min || carValue > max) {
-            return false;
-          }
-
+          filterByRange(filterValue, carValue);
           continue;
         } else {
-          if (filterValue.includes(carValue)) {
+          // const stringArrFilter = filterValue as string[];
+
+          if (filterByStringArray(filterValue as string[], carValue)) {
             continue;
           }
         }
@@ -85,7 +109,7 @@ export function filterCars(
 
       // String Filter (i.e. dropdowns)
       if (typeof carValue === "string" && typeof filterValue === "string") {
-        if (!carValue.toLowerCase().includes(filterValue.toLowerCase())) {
+        if (filterByString(filterValue, carValue)) {
           return false;
         }
 

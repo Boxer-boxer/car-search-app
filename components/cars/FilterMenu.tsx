@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
 
-import { FilterModel } from "@/types/carTypes";
+import { CarFilters, FilterModel } from "@/types/carTypes";
 import { Heading } from "@/components/UI";
 import { IconFilter, RangeFilter, SelectFilter } from "@/components/cars";
 
@@ -11,7 +11,7 @@ type CarFilterProps = {
   filterOptions: FilterModel;
   filterUIConfig?: Record<keyof FilterModel, filterRenderOption>;
   className?: string;
-  handleChange?: (value: Record<string, any>) => void;
+  handleChange?: (value: Partial<CarFilters>) => void;
 };
 
 const renderFilter = ({
@@ -19,7 +19,7 @@ const renderFilter = ({
   filterUIConfig,
   handleChange,
 }: CarFilterProps) => {
-  const [filter, setFilter] = useState<Record<string, any>>({});
+  const [filter, setFilter] = useState<Partial<CarFilters>>({});
 
   useEffect(() => {
     handleChange && handleChange(filter);
