@@ -1,10 +1,10 @@
 // "use client";
-import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import _ from "lodash";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
+import { useCarFilters } from "@/hooks/useRangeFilters";
 import { Heading } from "@/components/UI";
 
 type RangeFilterProps = {
@@ -13,29 +13,13 @@ type RangeFilterProps = {
 };
 
 export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
-  const [isInteger, setIsInteger] = useState<boolean>(false);
-  const [min, setMin] = useState<number>(0);
-  const [max, setMax] = useState<number>(0);
-  const [selectedRange, setSelectedRange] = useState<[number, number]>([0, 0]);
-
-  useEffect(() => {
-    // All filter arrays are sorted, so we can hardcode the first position
-    // as the minimum and the last position as the max
-    setMin(values[0]);
-    setMax(values[values.length - 1]);
-    setIsInteger(values.every(Number.isInteger));
-    setSelectedRange([values[0], values[values.length - 1]]);
-  }, []);
-
-  useEffect(() => {
-    handleOnChange(selectedRange);
-  }, [selectedRange]);
+  const { isInteger, min, max, selectedRange, setSelectedRange } =
+    useCarFilters(values, handleOnChange);
 
   return (
     <div className="mb-2 flex flex-col">
       <RangeSlider
         className="mb-2"
-        // defaultValue={selectedRange}
         value={selectedRange}
         min={min}
         max={max}
