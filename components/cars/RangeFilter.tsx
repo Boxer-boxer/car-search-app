@@ -52,15 +52,14 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
           Maximum: {selectedRange[1]}
         </div>
 
-        {selectedRange[0] != min ||
-          (selectedRange[1] != max && (
-            <button onClick={(e) => setSelectedRange([min, max])}>
-              <X
-                color="red"
-                className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"
-              />
-            </button>
-          ))}
+        {(selectedRange[0] > min || selectedRange[1] < max) && (
+          <button onClick={(e) => setSelectedRange([min, max])}>
+            <X
+              color="red"
+              className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"
+            />
+          </button>
+        )}
       </div>
     </div>
   );

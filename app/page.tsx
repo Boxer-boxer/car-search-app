@@ -43,7 +43,7 @@ export default function Home() {
               setSearchInput(e.target.value);
             }}
             {...(searchInput && { onClearClick: () => setSearchInput("") })}
-            className="mr-2 w-2xl"
+            className="mr-2 w-2xl w-full"
           />
           <Button handleClick={() => setShowFilters(!showFilters)}>
             <ListFilter />
