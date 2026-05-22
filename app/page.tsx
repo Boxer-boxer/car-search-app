@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ListFilter, Loader } from "lucide-react";
 
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
 import { Button, Heading } from "@/components/UI";
 import { useCarFilters } from "@/hooks/useCarFilters";
 import { useCarData } from "@/hooks/useCarData";
+import { FILTER_UI_CONFIG } from "@/lib/constants";
 
 export default function Home() {
   const [showFilters, setShowFilters] = useState<boolean>(false);
@@ -41,14 +42,7 @@ export default function Home() {
           <FilterMenu
             className={`${showFilters ? "flex opacity-100" : "hidden opacity-0"} mb-2 transition-all transition-discrete duration-500`}
             filterOptions={filterOptions}
-            filterUIConfig={{
-              colour: "icon",
-              year: "range",
-              engine_size: "range",
-              seats: "range",
-              top_speed: "range",
-              horsepower: "range",
-            }}
+            filterUIConfig={FILTER_UI_CONFIG}
             handleChange={(filterValue) => setFilterValue(filterValue)}
           />
         )}
