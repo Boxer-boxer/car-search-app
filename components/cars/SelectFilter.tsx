@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import _ from "lodash";
 
@@ -10,6 +10,9 @@ type SelectFilterProps = {
 export function SelectFilter({ values, handleOnChange }: SelectFilterProps) {
   const [selected, setSelected] = useState<string>("");
 
+  useEffect(() => {
+    handleOnChange(selected);
+  }, [selected]);
   return (
     <div className="mb-2 flex flex-row">
       {/* TODO: create UI component for Select */}
@@ -18,7 +21,6 @@ export function SelectFilter({ values, handleOnChange }: SelectFilterProps) {
         value={selected}
         onChange={(e) => {
           setSelected(e.target.value);
-          handleOnChange(e.target.value);
         }}
       >
         <option value="">--Please choose an option--</option>
@@ -32,7 +34,6 @@ export function SelectFilter({ values, handleOnChange }: SelectFilterProps) {
         <button
           onClick={() => {
             setSelected("");
-            handleOnChange("");
           }}
         >
           <X

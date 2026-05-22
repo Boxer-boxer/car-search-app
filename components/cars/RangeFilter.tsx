@@ -27,6 +27,10 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
     setSelectedRange([values[0], values[values.length - 1]]);
   }, []);
 
+  useEffect(() => {
+    handleOnChange(selectedRange);
+  }, [selectedRange]);
+
   return (
     <div className="mb-2 flex flex-col">
       <RangeSlider
@@ -38,7 +42,6 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
         step={isInteger ? 1 : 0.1}
         onInput={(value: [number, number]) => {
           setSelectedRange(value);
-          handleOnChange(value);
         }}
       />
       <div className="mb-2 flex flex-wrap justify-items-start">
