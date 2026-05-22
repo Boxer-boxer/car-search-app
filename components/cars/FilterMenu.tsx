@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { CarFilters, FilterModel } from "@/types/carTypes";
 import { Heading } from "@/components/UI";
@@ -21,9 +21,13 @@ const renderFilter = ({
 }: CarFilterProps) => {
   const [filter, setFilter] = useState<Partial<CarFilters>>({});
 
-  useEffect(() => {
-    handleChange && handleChange(filter);
-  }, [filter]);
+  const handleFilter = useCallback(
+    (filter) => {
+      handleChange && handleChange(filter);
+      setFilter(filter);
+    },
+    [filter],
+  );
 
   return (
     filterOptions &&
@@ -40,7 +44,7 @@ const renderFilter = ({
               <IconFilter
                 values={values}
                 handleOnChange={(value) =>
-                  setFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [key]: value })
                 }
                 key={key}
               />
@@ -56,7 +60,7 @@ const renderFilter = ({
               <RangeFilter
                 values={values as number[]}
                 handleOnChange={(value) =>
-                  setFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [key]: value })
                 }
                 key={key}
               />
@@ -72,7 +76,7 @@ const renderFilter = ({
               <SelectFilter
                 values={values}
                 handleOnChange={(value) =>
-                  setFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [key]: value })
                 }
               />
             </div>

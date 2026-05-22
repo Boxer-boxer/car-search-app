@@ -1,20 +1,22 @@
 // "use client";
 import { X } from "lucide-react";
-import _ from "lodash";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
-import { useCarFilters } from "@/hooks/useRangeFilters";
+import { useRangeFilters } from "@/hooks/useRangeFilters";
 import { Heading } from "@/components/UI";
+import { Range } from "@/types/carTypes";
 
 type RangeFilterProps = {
   values: number[];
-  handleOnChange: (value: [number, number]) => void;
+  handleOnChange: (value: Range) => void;
 };
 
 export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
-  const { isInteger, min, max, selectedRange, setSelectedRange } =
-    useCarFilters(values, handleOnChange);
+  const { isInteger, min, max, selectedRange, setRange } = useRangeFilters(
+    values,
+    handleOnChange,
+  );
 
   return (
     <div className="mb-2 flex flex-col">
@@ -24,8 +26,8 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
         min={min}
         max={max}
         step={isInteger ? 1 : 0.1}
-        onInput={(value: [number, number]) => {
-          setSelectedRange(value);
+        onInput={(value: Range) => {
+          setRange(value);
         }}
       />
       <div className="mb-2 flex flex-wrap justify-items-start">
@@ -40,7 +42,7 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
         </div>
 
         {(selectedRange[0] > min || selectedRange[1] < max) && (
-          <button onClick={(e) => setSelectedRange([min, max])}>
+          <button onClick={(e) => setRange([min, max])}>
             <X
               color="red"
               className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"
