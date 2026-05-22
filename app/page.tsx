@@ -1,35 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ListFilter } from "lucide-react";
+import { ListFilter, Loader } from "lucide-react";
 
-import { Car, FilterModel, CarFilters } from "@/types/carTypes";
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
 import { Button, Heading } from "@/components/UI";
-import { buildFilterOptions, filterCars } from "@/lib/filters";
+import { useCarFilters } from "@/hooks/useCarFilters";
+import { useCarData } from "@/hooks/useCarData";
 
 export default function Home() {
-  const [carList, setCarList] = useState<Car[]>([]);
-  const [searchInput, setSearchInput] = useState<string>("");
-  const [filterOptions, setFilterOptions] = useState<FilterModel | null>(null);
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [filterValue, setFilterValue] = useState<Partial<CarFilters>>({});
-  const [displayCars, setDisplayCars] = useState<Car[]>([]);
 
-  useEffect(() => {
-    fetch("/data/cars.json")
-      .then((response) => response.json())
-      .then((data) => setCarList(data));
-  }, []);
+  const { carList, loading } = useCarData();
 
-  useEffect(() => {
-    setFilterOptions(buildFilterOptions(carList));
-    setDisplayCars(carList);
-  }, [carList]);
-
-  useEffect(() => {
-    setDisplayCars(filterCars(carList, filterValue, searchInput));
-  }, [carList, filterValue, searchInput]);
+  const {
+    setSearchInput,
+    searchInput,
+    setFilterValue,
+    filterOptions,
+    displayCars,
+  } = useCarFilters(carList);
 
   return (
     <div className="bg-gray-50 pt-4">
@@ -62,7 +52,11 @@ export default function Home() {
             handleChange={(filterValue) => setFilterValue(filterValue)}
           />
         )}
-        {displayCars.length > 0 ? (
+        {loading ? (
+          <div className="align-items-center flex w-full justify-center p-2">
+            <Loader className="animate-spin" />
+          </div>
+        ) : displayCars.length > 0 ? (
           <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
             {displayCars.map((car, index) => (
               <CarCard
