@@ -3,19 +3,19 @@ import { useState } from "react";
 import _ from "lodash";
 
 import { Heading, Button } from "@/components/UI";
+import { CarPropertyValues } from "@/types/carTypes";
 
 type IconFilterProps = {
-  values: (string | number)[];
-  handleOnChange: (e: (string | number)[]) => void;
+  values: CarPropertyValues[];
+  handleOnChange: (e: CarPropertyValues[]) => void;
 };
 
 export function IconFilter({ values, handleOnChange }: IconFilterProps) {
-  const [selected, setSelected] = useState<(string | number)[]>([]);
-  const [isSelectedFilterHovered, setIsSelectedFilterHovered] = useState<
-    string | number | null
-  >(null);
+  const [selected, setSelected] = useState<CarPropertyValues[]>([]);
+  const [isSelectedFilterHovered, setIsSelectedFilterHovered] =
+    useState<CarPropertyValues | null>(null);
 
-  const onChange = (arr: (string | number)[]) => {
+  const onChange = (arr: CarPropertyValues[]) => {
     setSelected(arr);
     handleOnChange(arr);
   };

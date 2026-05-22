@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import _ from "lodash";
 
+import { Select } from "@/components/UI";
+import { CarPropertyValues } from "@/types/carTypes";
+
 type SelectFilterProps = {
-  values: (string | number)[];
+  values: CarPropertyValues[];
   handleOnChange: (e: string) => void;
 };
 
@@ -15,21 +18,13 @@ export function SelectFilter({ values, handleOnChange }: SelectFilterProps) {
   }, [selected]);
   return (
     <div className="mb-2 flex flex-row">
-      {/* TODO: create UI component for Select */}
-      <select
-        className="mr-2 w-full rounded-sm border-2 border-gray-200 p-2"
+      <Select
+        className="mr-2 w-full"
+        handleSelect={(value) => setSelected(value)}
         value={selected}
-        onChange={(e) => {
-          setSelected(e.target.value);
-        }}
-      >
-        <option value="">--Please choose an option--</option>
-        {values.map((value) => (
-          <option value={value} key={`dd-${value}`}>
-            {value}
-          </option>
-        ))}
-      </select>
+        options={values}
+      />
+
       {selected.length > 0 && (
         <button
           onClick={() => {

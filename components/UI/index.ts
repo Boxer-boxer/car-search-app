@@ -4,3 +4,4 @@ export * from "./Heading";
 export * from "./Subtitle";
 export * from "./TextInput";
 export * from "./Button";
+export * from "./Select";

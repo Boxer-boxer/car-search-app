@@ -31,7 +31,7 @@ export function buildFilterOptions(items: Partial<Car[]>): FilterModel {
   return Object.fromEntries(
     Object.entries(filters).map(([key, values]) => [
       key,
-      Array.from(values as Set<string | number>).sort(),
+      Array.from(values as Set<CarPropertyValues>).sort(),
     ]),
   );
 }
