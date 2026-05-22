@@ -2,25 +2,28 @@
 
 import { TextInput } from "@/components/UI";
 
-import { Search } from "lucide-react";
+import { X } from "lucide-react";
 
 type SearchBarProps = {
+  value: string;
   className?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClearClick?: () => void;
 };
 
 export function SearchBar({
   className,
   onChange,
-  onSearchClick,
+  onClearClick,
+  value,
 }: SearchBarProps) {
   return (
     <TextInput
+      value={value}
       className={className}
       onChange={onChange}
-      endAdornment={<Search />}
-      endAdornmentClick={(e) => onSearchClick(e)}
+      {...(onClearClick && { endAdornment: <X /> })}
+      {...(onClearClick && { endAdornmentClick: () => onClearClick() })}
     />
   );
 }

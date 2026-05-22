@@ -1,7 +1,7 @@
 "use client";
 
 import { Circle } from "lucide-react";
-import { Car } from "@/types/carType";
+import { Car } from "@/types/carTypes";
 import { Card, Heading, Subtitle, Badge } from "@/components/UI";
 
 type CarCardProps = {
@@ -10,7 +10,7 @@ type CarCardProps = {
 
 export function CarCard({ car }: CarCardProps) {
   return (
-    <Card className="mr-2 mb-2 w-2xl max-w-sm">
+    <Card className="bg-neutral-primary-soft border border-gray-300">
       <Heading variant="h3">
         {car.make} {car.model}
       </Heading>

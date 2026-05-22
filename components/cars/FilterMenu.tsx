@@ -1,13 +1,101 @@
-import { Car } from "@/types/carType";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 
+import { FilterOptions } from "@/types/carTypes";
 import { Heading } from "@/components/UI";
+import { IconFilter, RangeFilter, SelectFilter } from "@/components/cars";
 
-type CarFilterProps = {};
+type filterRenderOption = "icon" | "range";
 
-export function FilterMenu() {
+type CarFilterProps = {
+  filterOptions: FilterOptions;
+  filterUIConfig?: Record<keyof FilterOptions, filterRenderOption>;
+  className?: string;
+  handleChange?: (value: Record<string, any>) => void;
+};
+
+const renderFilter = ({
+  filterOptions,
+  filterUIConfig,
+  handleChange,
+}: CarFilterProps) => {
+  const [filter, setFilter] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    handleChange && handleChange(filter);
+  }, [filter]);
+
   return (
-    <div className="flex w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900">
-      <Heading variant="h6">Filters</Heading>
+    filterOptions &&
+    Object.entries(filterOptions).map(([key, values]) => {
+      const config = filterUIConfig?.[key as keyof FilterOptions];
+
+      switch (config) {
+        case "icon":
+          return (
+            <div key={key}>
+              <Heading variant="h5" className="mb-2">
+                {_.startCase(key)}
+              </Heading>
+              <IconFilter
+                values={values}
+                handleOnChange={(value) =>
+                  setFilter({ ...filter, [key]: value })
+                }
+                key={key}
+              />
+            </div>
+          );
+
+        case "range":
+          return (
+            <div key={key}>
+              <Heading variant="h5" className="mb-2">
+                {_.startCase(key)}
+              </Heading>
+              <RangeFilter
+                values={values as number[]}
+                handleOnChange={(value) =>
+                  setFilter({ ...filter, [key]: value })
+                }
+                key={key}
+              />
+            </div>
+          );
+
+        default:
+          return (
+            <div key={key}>
+              <Heading variant="h5" className="mb-2">
+                {_.startCase(key)}
+              </Heading>
+              <SelectFilter
+                values={values}
+                handleOnChange={(value) =>
+                  setFilter({ ...filter, [key]: value })
+                }
+              />
+            </div>
+          );
+      }
+    })
+  );
+};
+
+export function FilterMenu({
+  filterOptions,
+  filterUIConfig,
+  className,
+  handleChange,
+}: CarFilterProps) {
+  return (
+    <div
+      className={`flex w-full flex-col rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 ${className}`}
+    >
+      <Heading variant="h4" className="mb-2">
+        Filters
+      </Heading>
+      {renderFilter({ filterOptions, filterUIConfig, handleChange })}
     </div>
   );
 }

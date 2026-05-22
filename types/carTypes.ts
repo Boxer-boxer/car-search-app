@@ -8,3 +8,5 @@ export type Car = {
   top_speed: number;
   year: number;
 };
+
+export type FilterOptions = Record<string, (string | number)[]>;

@@ -14,7 +14,10 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       >
         <input ref={ref} {...props} className="w-full border-0 outline-0" />
         {endAdornment && endAdornmentClick && (
-          <Button variant="borderless" handleClick={endAdornmentClick}>
+          <Button
+            variant="borderless"
+            handleClick={(e) => endAdornmentClick(e)}
+          >
             {endAdornment}
           </Button>
         )}
