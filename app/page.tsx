@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ListFilter } from "lucide-react";
 
-import { Car, FilterModel } from "@/types/carTypes";
+import { Car, FilterModel, CarFilters } from "@/types/carTypes";
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
 import { Button, Heading } from "@/components/UI";
 import { buildFilterOptions, filterCars } from "@/lib/filters";
@@ -13,7 +13,7 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState<string>("");
   const [filterOptions, setFilterOptions] = useState<FilterModel | null>(null);
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [filterValue, setFilterValue] = useState<Record<string, any>>({});
+  const [filterValue, setFilterValue] = useState<Partial<CarFilters>>({});
   const [displayCars, setDisplayCars] = useState<Car[]>([]);
 
   useEffect(() => {

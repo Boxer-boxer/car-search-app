@@ -9,8 +9,6 @@ export type Car = {
   year: number;
 };
 
-export type Range = [number, number];
-
 export type FilterModelInput = {
   colour: Set<string | number>;
   engine_size: Set<string | number>;
@@ -23,6 +21,8 @@ export type FilterModelInput = {
 };
 
 export type FilterModel = { [k: string]: (string | number)[] };
+
+export type Range = [number, number];
 
 export type CarFilters = {
   colour: string[];
