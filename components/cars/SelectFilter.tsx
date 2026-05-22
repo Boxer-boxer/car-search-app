@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
 import _ from "lodash";
 
 import { Select } from "@/components/UI";
@@ -24,19 +23,6 @@ export function SelectFilter({ values, handleOnChange }: SelectFilterProps) {
         value={selected}
         options={values}
       />
-
-      {selected.length > 0 && (
-        <button
-          onClick={() => {
-            setSelected("");
-          }}
-        >
-          <X
-            color="red"
-            className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"
-          />
-        </button>
-      )}
     </div>
   );
 }
