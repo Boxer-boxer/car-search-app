@@ -38,10 +38,7 @@ export function buildFilterOptions(items: Partial<Car[]>): FilterModel {
 
 function filterByRange(filterValue: FilterValue, value: CarPropertyValues) {
   const [min, max] = filterValue;
-
-  if (value < min || value > max) {
-    return false;
-  }
+  return value < min || value > max;
 }
 
 function filterByStringArray(filterValue: string[], value: CarPropertyValues) {
@@ -96,7 +93,9 @@ export function filterCars(
         if (
           !filterValue.some((value: CarPropertyValues) => isNaN(Number(value)))
         ) {
-          filterByRange(filterValue, carValue);
+          if (filterByRange(filterValue, carValue)) {
+            return false;
+          }
           continue;
         } else {
           // const stringArrFilter = filterValue as string[];
