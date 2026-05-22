@@ -1,4 +1,4 @@
-import { FilterOptions, Car } from "@/types/carTypes";
+import { Car, FilterModel, FilterModelInput } from "@/types/carTypes";
 
 /* Builds an object based on an array of items with multiple properties.
 / Returns an object with all available filter categories and necessary
@@ -6,25 +6,21 @@ import { FilterOptions, Car } from "@/types/carTypes";
 / to display in the UI using the excludeKeys arg. (i.e. normally properties
 / like ID, vin numbers, etc. wouldn't be displayed in the filter menu)
 */
-export function buildFilterOptions<T extends Record<string, string | number>>(
-  items: T[],
-  //   excludeKeys: (keyof T)[] = [],
-): FilterOptions {
-  const filters: Record<string, Set<string | number>> = {};
+export function buildFilterOptions(items: Partial<Car[]>): FilterModel {
+  const filters: Partial<FilterModelInput> = {};
 
-  for (const item of items) {
+  for (const item of items as Car[]) {
     for (const key in item) {
-      //   if (excludeKeys.includes(key)) {
-      //     continue;
-      //   }
+      const typedKey = key as keyof Car;
 
-      if (!filters[key]) {
-        filters[key] = new Set();
+      if (!filters[typedKey]) {
+        filters[typedKey] = new Set();
       }
 
-      filters[key].add(item[key]);
+      filters[typedKey].add(item[typedKey]);
     }
   }
+
   return Object.fromEntries(
     Object.entries(filters).map(([key, values]) => [
       key,

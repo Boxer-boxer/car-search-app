@@ -1,15 +1,15 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
 
-import { FilterOptions } from "@/types/carTypes";
+import { FilterModel } from "@/types/carTypes";
 import { Heading } from "@/components/UI";
 import { IconFilter, RangeFilter, SelectFilter } from "@/components/cars";
 
 type filterRenderOption = "icon" | "range";
 
 type CarFilterProps = {
-  filterOptions: FilterOptions;
-  filterUIConfig?: Record<keyof FilterOptions, filterRenderOption>;
+  filterOptions: FilterModel;
+  filterUIConfig?: Record<keyof FilterModel, filterRenderOption>;
   className?: string;
   handleChange?: (value: Record<string, any>) => void;
 };
@@ -28,7 +28,7 @@ const renderFilter = ({
   return (
     filterOptions &&
     Object.entries(filterOptions).map(([key, values]) => {
-      const config = filterUIConfig?.[key as keyof FilterOptions];
+      const config = filterUIConfig?.[key as keyof FilterModel];
 
       switch (config) {
         case "icon":

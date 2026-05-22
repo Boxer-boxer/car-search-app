@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ListFilter } from "lucide-react";
 
-import { Car, FilterOptions } from "@/types/carTypes";
+import { Car, FilterModel } from "@/types/carTypes";
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
 import { Button, Heading } from "@/components/UI";
 import { buildFilterOptions, filterCars } from "@/lib/filters";
@@ -11,9 +11,7 @@ import { buildFilterOptions, filterCars } from "@/lib/filters";
 export default function Home() {
   const [carList, setCarList] = useState<Car[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
-  const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(
-    null,
-  );
+  const [filterOptions, setFilterOptions] = useState<FilterModel | null>(null);
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [filterValue, setFilterValue] = useState<Record<string, any>>({});
   const [displayCars, setDisplayCars] = useState<Car[]>([]);
@@ -31,7 +29,12 @@ export default function Home() {
 
   useEffect(() => {
     setDisplayCars(filterCars(carList, filterValue, searchInput));
+    console.log("filterValue", filterValue);
   }, [carList, filterValue, searchInput]);
+
+  useEffect(() => {
+    console.log("filterOptions", filterOptions);
+  }, [filterOptions]);
 
   return (
     <div className="bg-gray-50 pt-4">
@@ -43,7 +46,7 @@ export default function Home() {
               setSearchInput(e.target.value);
             }}
             {...(searchInput && { onClearClick: () => setSearchInput("") })}
-            className="mr-2 w-2xl w-full"
+            className="mr-2 w-full"
           />
           <Button handleClick={() => setShowFilters(!showFilters)}>
             <ListFilter />

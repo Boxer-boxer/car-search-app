@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
 type ButtonProps = {
-  handleClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
   variant?: "regular" | "borderless";
   className?: string;
