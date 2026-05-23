@@ -3,62 +3,63 @@ import { useState } from "react";
 import _ from "lodash";
 
 import { Heading, Button } from "@/components/UI";
-import { CarPropertyValues } from "@/types/carTypes";
+import { CarPropertyValues, FilterValue } from "@/types/carTypes";
 
 type IconFilterProps = {
-  values: CarPropertyValues[];
-  handleOnChange: (e: CarPropertyValues[]) => void;
+  value: string[];
+  options?: string[];
+  handleOnChange: (e: FilterValue) => void;
 };
 
-export function IconFilter({ values, handleOnChange }: IconFilterProps) {
-  const [selected, setSelected] = useState<CarPropertyValues[]>([]);
+export function IconFilter({
+  value,
+  options,
+  handleOnChange,
+}: IconFilterProps) {
   const [isSelectedFilterHovered, setIsSelectedFilterHovered] =
     useState<CarPropertyValues | null>(null);
-
-  const onChange = (arr: CarPropertyValues[]) => {
-    setSelected(arr);
-    handleOnChange(arr);
-  };
 
   return (
     <div className="mb-2 flex flex-col">
       <div className="mb-2 flex flex-wrap justify-items-start gap-2">
-        {values.length === selected.length ? (
-          <p className="text-small font-light">-- All values selected -- </p>
+        {value && options?.length === value.length ? (
+          <p className="text-small font-light">-- All options selected -- </p>
         ) : (
-          values.map(
-            (value, index) =>
-              !selected.includes(value) && (
+          Array.isArray(options) &&
+          options?.map((value, index) => {
+            return (
+              !value.includes(value) && (
                 <Button
                   key={`cb-${value}-${index}`}
                   className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg border border-gray-600 hover:bg-gray-100"
-                  handleClick={(e) => {
-                    selected.includes(value)
-                      ? onChange(_.without(selected, value))
-                      : onChange([...selected, value]);
+                  handleClick={() => {
+                    value.includes(value)
+                      ? handleOnChange(_.without(value, value))
+                      : handleOnChange([...value, value]);
                   }}
                   style={{
                     background: value,
                   }}
                 />
-              ),
-          )
+              )
+            );
+          })
         )}
       </div>
-      {selected.length > 0 && (
+      {value && (
         <div className="mb-2 flex flex-wrap justify-items-start gap-2">
           <Heading variant="h6" className="text-small mr-2">
             Selected:
           </Heading>
-          {selected.map((value) => (
+          {value.map((value) => (
             <Button
               key={`selected-value-${value}`}
               className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg border border-gray-600 hover:bg-gray-100"
               style={{
                 background: value,
               }}
-              handleClick={(e) => {
-                onChange(_.without(selected, value));
+              handleClick={() => {
+                handleOnChange(_.without(value, value));
               }}
               onMouseEnter={() => setIsSelectedFilterHovered(value)}
               onMouseLeave={() => setIsSelectedFilterHovered(null)}
@@ -66,13 +67,13 @@ export function IconFilter({ values, handleOnChange }: IconFilterProps) {
               {isSelectedFilterHovered === value && (
                 <X
                   color="red"
-                  key={`selected-x-${value}`}
+                  key={`value-x-${value}`}
                   className="h-5 w-5 cursor-pointer"
                 />
               )}
             </Button>
           ))}
-          <Button variant="borderless" handleClick={(e) => onChange([])}>
+          <Button variant="borderless" handleClick={(e) => handleOnChange([])}>
             <X
               color="red"
               className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"

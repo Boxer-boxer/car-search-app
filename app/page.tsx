@@ -18,6 +18,7 @@ export default function Home() {
     setSearchInput,
     searchInput,
     setFilterValue,
+    filterValue,
     filterOptions,
     displayCars,
   } = useCarFilters(carList);
@@ -43,6 +44,7 @@ export default function Home() {
             className={`${showFilters ? "flex opacity-100" : "hidden opacity-0"} mb-2 transition-all transition-discrete duration-500`}
             filterOptions={filterOptions}
             filterUIConfig={FILTER_UI_CONFIG}
+            filterValues={filterValue}
             handleChange={(filterValue) => setFilterValue(filterValue)}
           />
         )}

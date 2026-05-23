@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { useCallback, useMemo, useState } from "react";
 
-import { CarFilters, FilterModel } from "@/types/carTypes";
+import { CarFilters, FilterModel, Range } from "@/types/carTypes";
 import { Heading } from "@/components/UI";
 import { IconFilter, RangeFilter, SelectFilter } from "@/components/cars";
 
@@ -11,6 +11,7 @@ type CarFilterProps = {
   filterOptions: FilterModel;
   filterUIConfig?: Record<keyof FilterModel, filterRenderOption>;
   className?: string;
+  filterValues: Partial<CarFilters>;
   handleChange?: (value: Partial<CarFilters>) => void;
 };
 
@@ -18,65 +19,68 @@ const renderFilter = ({
   filterOptions,
   filterUIConfig,
   handleChange,
+  filterValues,
 }: CarFilterProps) => {
   const [filter, setFilter] = useState<Partial<CarFilters>>({});
 
   const handleFilter = useCallback(
-    (filter) => {
+    (filter: Partial<CarFilters>) => {
       handleChange && handleChange(filter);
       setFilter(filter);
     },
-    [filter],
+    [handleChange],
   );
 
   return (
     filterOptions &&
     Object.entries(filterOptions).map(([key, values]) => {
       const config = filterUIConfig?.[key as keyof FilterModel];
+      const typedKey = key as keyof CarFilters;
 
       switch (config) {
         case "icon":
           return (
-            <div key={key}>
+            <div key={typedKey}>
               <Heading variant="h5" className="mb-2">
-                {_.startCase(key)}
+                {_.startCase(typedKey)}
               </Heading>
               <IconFilter
-                values={values}
+                value={filterValues[typedKey] as string[]}
+                options={values as string[]}
                 handleOnChange={(value) =>
-                  handleFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [typedKey]: value })
                 }
-                key={key}
               />
             </div>
           );
 
         case "range":
           return (
-            <div key={key}>
+            <div key={typedKey}>
               <Heading variant="h5" className="mb-2">
-                {_.startCase(key)}
+                {_.startCase(typedKey)}
               </Heading>
               <RangeFilter
+                value={filterValues[typedKey] as Range}
                 values={values as number[]}
                 handleOnChange={(value) =>
-                  handleFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [typedKey]: value })
                 }
-                key={key}
               />
             </div>
           );
 
         default:
           return (
-            <div key={key}>
+            <div key={typedKey}>
               <Heading variant="h5" className="mb-2">
-                {_.startCase(key)}
+                {_.startCase(typedKey)}
               </Heading>
               <SelectFilter
-                values={values}
+                value={filterValues[typedKey] as string}
+                options={values}
                 handleOnChange={(value) =>
-                  handleFilter({ ...filter, [key]: value })
+                  handleFilter({ ...filter, [typedKey]: value })
                 }
               />
             </div>
@@ -91,6 +95,7 @@ export function FilterMenu({
   filterUIConfig,
   className,
   handleChange,
+  filterValues,
 }: CarFilterProps) {
   return (
     <div
@@ -99,7 +104,12 @@ export function FilterMenu({
       <Heading variant="h4" className="mb-2">
         Filters
       </Heading>
-      {renderFilter({ filterOptions, filterUIConfig, handleChange })}
+      {renderFilter({
+        filterOptions,
+        filterUIConfig,
+        handleChange,
+        filterValues,
+      })}
     </div>
   );
 }

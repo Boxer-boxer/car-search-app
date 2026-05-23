@@ -8,26 +8,28 @@ import { Heading } from "@/components/UI";
 import { Range } from "@/types/carTypes";
 
 type RangeFilterProps = {
+  value?: Range;
   values: number[];
   handleOnChange: (value: Range) => void;
 };
 
-export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
-  const { isInteger, min, max, selectedRange, setRange } = useRangeFilters(
-    values,
-    handleOnChange,
-  );
-
+export function RangeFilter({
+  values,
+  value,
+  handleOnChange,
+}: RangeFilterProps) {
+  const { isInteger, min, max, defaultRange } = useRangeFilters(values);
+  const valueToUse = value ?? defaultRange;
   return (
     <div className="mb-2 flex flex-col">
       <RangeSlider
         className="mb-2"
-        value={selectedRange}
+        value={valueToUse}
         min={min}
         max={max}
         step={isInteger ? 1 : 0.1}
         onInput={(value: Range) => {
-          setRange(value);
+          handleOnChange(value);
         }}
       />
       <div className="mb-2 flex flex-wrap justify-items-start">
@@ -35,14 +37,14 @@ export function RangeFilter({ values, handleOnChange }: RangeFilterProps) {
           Selected:
         </Heading>
         <div className="mr-2 cursor-pointer rounded-sm border-gray-300 bg-gray-100 p-2 transition">
-          Minimum: {selectedRange[0]}
+          Minimum: {valueToUse[0]}
         </div>
         <div className="mr-2 cursor-pointer rounded-sm border-gray-300 bg-gray-100 p-2 transition">
-          Maximum: {selectedRange[1]}
+          Maximum: {valueToUse[1]}
         </div>
 
-        {(selectedRange[0] > min || selectedRange[1] < max) && (
-          <button onClick={(e) => setRange([min, max])}>
+        {(valueToUse[0] > min || valueToUse[1] < max) && (
+          <button onClick={(e) => handleOnChange([min, max])}>
             <X
               color="red"
               className="h-5 w-5 cursor-pointer rounded-sm transition hover:bg-gray-100"

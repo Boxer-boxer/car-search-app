@@ -57,6 +57,7 @@ export function useCarFilters(carList: Car[]) {
     filterOptions: dependentFilterOptions,
     setSearchInput,
     setFilterValue,
+    filterValue,
     searchInput,
     displayCars,
   };

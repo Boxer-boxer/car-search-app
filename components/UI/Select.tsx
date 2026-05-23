@@ -32,7 +32,7 @@ export function Select({
           </option>
         ))}
       </select>
-      {value.length > 0 && (
+      {value && (
         <button
           onClick={() => {
             handleSelect("");
