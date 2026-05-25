@@ -51,7 +51,7 @@ This project was developed as part of a technical recruitment process. It featur
 
 ## Getting Started
 
-# Run the App:
+### Run the App:
 
 Clone the repository:
 
@@ -73,7 +73,7 @@ The application will be available at:
 
 `http://localhost:3000`
 
-# Run tests
+### Run tests
 
 Running unit and integration tests:
 
