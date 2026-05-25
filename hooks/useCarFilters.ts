@@ -9,6 +9,8 @@ export function useCarFilters(carList: Car[]) {
   const [filterValue, setFilterValue] = useState<Partial<CarFilters>>({});
   const [displayCars, setDisplayCars] = useState<Car[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterModel | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   // TODO: Hardcoding this for now - can be further improved by defining dependencies
   // in the FILTER_UI_CONFIG constants i.e. model: [make]
@@ -52,6 +54,10 @@ export function useCarFilters(carList: Car[]) {
     }
   }, [filterValue.make]);
 
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [displayCars]);
+
   return {
     setFilterOptions,
     filterOptions: dependentFilterOptions,
@@ -60,5 +66,9 @@ export function useCarFilters(carList: Car[]) {
     filterValue,
     searchInput,
     displayCars,
+    currentPage,
+    setCurrentPage,
+    showFilters,
+    setShowFilters,
   };
 }

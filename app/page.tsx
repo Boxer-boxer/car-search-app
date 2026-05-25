@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ListFilter, Loader } from "lucide-react";
 
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
@@ -10,8 +9,6 @@ import { useCarData } from "@/hooks/useCarData";
 import { FILTER_UI_CONFIG, PAGE_SIZE } from "@/lib/constants";
 
 export default function Home() {
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(0);
   const { carList, loading } = useCarData();
 
   const {
@@ -21,11 +18,11 @@ export default function Home() {
     filterValue,
     filterOptions,
     displayCars,
+    currentPage,
+    setCurrentPage,
+    showFilters,
+    setShowFilters,
   } = useCarFilters(carList);
-
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [displayCars]);
 
   return (
     <div className="bg-gray-50 pt-4">
