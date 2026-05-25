@@ -42,8 +42,8 @@ This project was developed as part of a technical recruitment process. It featur
 
 - [![Next][Next.js]][Next-url]
 - [![React][React.js]][React-url]
-- [![Tailwind][Tailwind.css]][Tailwind-url]
 - [![Typescript][Typescript.js]][Typescript-url]
+- [![Tailwind][Tailwind.css]][Tailwind-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -105,7 +105,7 @@ There's a pagination system that allows the user to navigate the UI with more ea
 
 ## Potential Improvements
 
-- Filtering Make and Model - Even though most of the filtering system is config based, there is an exception in the Make and Model fields. I thought it wouldn't make much sense for the user to be able to see
+- <b>Filtering Make and Model</b> - Even though most of the filtering system is config based, there is an exception in the Make and Model fields. I thought it wouldn't make much sense for the user to be able to see
   a dropdown with multiple Models available after selecting a specific Make. So I implemented a hardcoded dependency to only display models beloging to a selected make (if a make is selected).
   'Why wasn't this developed to follow the rest of the config-based architecture?" To put it bluntly, because this is not a product that will be used in real life and more a showcase of my technical skills, so I made the decision to go with something functional over spending multiple hours implementing something that would be admitedly more impressive but with very little actual use.
 
