@@ -1,5 +1,3 @@
-"use client";
-
 import { Circle } from "lucide-react";
 import { Car } from "@/types/carTypes";
 import { Card, Heading, Subtitle, Badge } from "@/components/UI";

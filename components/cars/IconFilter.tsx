@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import _ from "lodash";
 
 import { Heading, Button } from "@/components/UI";
@@ -12,7 +12,7 @@ type IconFilterProps = {
 };
 
 export function IconFilter({
-  value,
+  value = [],
   options,
   handleOnChange,
 }: IconFilterProps) {
@@ -26,19 +26,19 @@ export function IconFilter({
           <p className="text-small font-light">-- All options selected -- </p>
         ) : (
           Array.isArray(options) &&
-          options?.map((value, index) => {
+          options?.map((colour, index) => {
             return (
-              !value.includes(value) && (
+              !value.includes(colour) && (
                 <Button
-                  key={`cb-${value}-${index}`}
+                  key={`cb-${colour}-${index}`}
                   className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg border border-gray-600 hover:bg-gray-100"
                   handleClick={() => {
-                    value.includes(value)
-                      ? handleOnChange(_.without(value, value))
-                      : handleOnChange([...value, value]);
+                    value?.includes(colour)
+                      ? handleOnChange(_.without(value, colour))
+                      : handleOnChange([...value, colour]);
                   }}
                   style={{
-                    background: value,
+                    background: colour,
                   }}
                 />
               )
@@ -46,28 +46,28 @@ export function IconFilter({
           })
         )}
       </div>
-      {value && (
+      {value.length > 0 && (
         <div className="mb-2 flex flex-wrap justify-items-start gap-2">
           <Heading variant="h6" className="text-small mr-2">
             Selected:
           </Heading>
-          {value.map((value) => (
+          {value.map((colour) => (
             <Button
-              key={`selected-value-${value}`}
-              className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg border border-gray-600 hover:bg-gray-100"
+              key={`selected-value-${colour}`}
+              className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg border border-gray-600 p-0 hover:bg-gray-100"
               style={{
-                background: value,
+                background: colour,
               }}
               handleClick={() => {
-                handleOnChange(_.without(value, value));
+                handleOnChange(_.without(value, colour));
               }}
-              onMouseEnter={() => setIsSelectedFilterHovered(value)}
+              onMouseEnter={() => setIsSelectedFilterHovered(colour)}
               onMouseLeave={() => setIsSelectedFilterHovered(null)}
             >
-              {isSelectedFilterHovered === value && (
+              {isSelectedFilterHovered === colour && (
                 <X
                   color="red"
-                  key={`value-x-${value}`}
+                  key={`value-x-${colour}`}
                   className="h-5 w-5 cursor-pointer"
                 />
               )}
