@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { CarFilters, FilterModel, Range } from "@/types/carTypes";
 import { Heading } from "@/components/UI";

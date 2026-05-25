@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import _ from "lodash";
 
 import { Heading, Button } from "@/components/UI";
