@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ListFilter, Loader } from "lucide-react";
 
 import { CarCard, SearchBar, FilterMenu } from "@/components/cars";
@@ -22,6 +22,10 @@ export default function Home() {
     filterOptions,
     displayCars,
   } = useCarFilters(carList);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [displayCars]);
 
   return (
     <div className="bg-gray-50 pt-4">
