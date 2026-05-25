@@ -50,7 +50,7 @@ export default function Home() {
         )}
         {loading ? (
           <div className="align-items-center flex w-full justify-center p-2">
-            <Loader className="animate-spin" />
+            <Loader className="animate-spin" data-testid="loader" />
           </div>
         ) : displayCars.length > 0 ? (
           <>
