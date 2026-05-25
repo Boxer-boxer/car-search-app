@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Car Search App",
+  title: "Jorge da Silva - Car Search App",
   description: "Coding Assignment for Recruitment Process",
 };
 
