@@ -145,7 +145,7 @@ There's a pagination system that allows the user to navigate the UI with more ea
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[Tailwind.css]: https://img.shields.io/badge/tailwind-css-000000?style=for-the-badge&logo=tailwind-css&logoColor=#00bcff
+[Tailwind.css]: https://img.shields.io/badge/tailwind-000000?style=for-the-badge&logo=tailwind-css&logoColor=#00bcff
 [Tailwind-url]: http://tailwindcss.com/
 [Typescript.js]: https://img.shields.io/badge/typescript-000000?style=for-the-badge&logo=typescript&logoColor=white
 [Typescript-url]: https://www.typescriptlang.org/
